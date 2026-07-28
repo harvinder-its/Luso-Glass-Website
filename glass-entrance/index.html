@@ -18,6 +18,7 @@
 <meta name="twitter:description" content="Luso Glass designs and installs custom commercial glass entrance systems in Newark, NJ — sliding, pivot, and all-glass entryways built for durability.">
 <meta name="twitter:image" content="https://lusoglass.com/assets/ge-showcase.webp">
 <script src="/support.js"></script>
+<script src="/mobile-nav.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -80,6 +81,11 @@ image-slot{--is-empty-bg:#dbe3ec}
 
 
 .desk-nav > a,.desk-nav .navdrop > a{transition:color .2s}
+.mobile-menu-btn{display:none;background:none;border:0;padding:8px;cursor:pointer;color:#0d2340;align-items:center;justify-content:center}
+.mobile-nav{display:none;position:fixed;inset:0;z-index:50;background:#fff;overflow-y:auto}
+.mobile-nav.open{display:block}
+.mobile-nav a{color:#0d2340}
+body.menu-open{overflow:hidden}
 .desk-nav > a:hover,.desk-nav .navdrop > a:hover{color:#1874c0 !important}
 a[data-btn]{transition:background .2s,box-shadow .2s,transform .2s,border-color .2s,color .2s}
 a[data-btn="primary"]:hover{background:#125c9c !important}
@@ -90,7 +96,7 @@ footer a[href]{transition:color .2s}
 footer a[href]:hover{color:#ffffff}
 a[data-social]{transition:background .2s,border-color .2s,color .2s}
 a[data-social]:hover{background:#1874c0 !important;border-color:#1874c0 !important;color:#fff !important}
-@media(max-width:1000px){.desk-nav{display:none !important}}
+@media(max-width:1000px){.desk-nav{display:none !important}.mobile-menu-btn{display:inline-flex !important}.header-cta{display:none !important}.call-link{display:none !important}}
 @media(max-width:1080px){
   .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
   .gfoot{grid-template-columns:1fr 1fr;gap:32px !important}
@@ -137,14 +143,32 @@ a[data-social]:hover{background:#1874c0 !important;border-color:#1874c0 !importa
 <div class="navdrop"><a href="/commercial-glass-services/" style="color:#1874c0;display:inline-flex;align-items:center;gap:5px">Commercial<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top:1px"><path d="m6 9 6 6 6-6"/></svg></a><div class="submenu"><div class="megaSolo"><div class="msol-main"><div class="mega-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11h16V9"/></svg> Commercial Glass Services</div><div class="msol-grid"><a class="megaitem" href="/emergency-business-glass-repair/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 20h20L12 2z"/><path d="M12 9v5M12 17h.01"/></svg></span><span class="mi-tx"><span class="mi-t">Emergency Business Glass</span><span class="mi-d">24/7 board-up & repair</span></span></a><a class="megaitem" href="/storefront/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></span><span class="mi-tx"><span class="mi-t">Storefronts</span><span class="mi-d">Retail & restaurant glazing</span></span></a><a class="megaitem" href="/interior-partition/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M12 4v16"/></svg></span><span class="mi-tx"><span class="mi-t">Interior Partitions</span><span class="mi-d">Office glass walls</span></span></a><a class="megaitem" href="/glass-entrance/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M15 12h.01"/></svg></span><span class="mi-tx"><span class="mi-t">Glass Entrances</span><span class="mi-d">Sliding & pivot systems</span></span></a><a class="megaitem" href="/glass-railings/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/><path d="M7 5v14M17 5v14"/></svg></span><span class="mi-tx"><span class="mi-t">Glass Railings</span><span class="mi-d">Stairs & mezzanines</span></span></a><a class="megaitem" href="/glass-solutions-service/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18"/></svg></span><span class="mi-tx"><span class="mi-t">Glass Solutions</span><span class="mi-d">Custom commercial glass</span></span></a><a class="megaitem" href="/window-glass-replacement/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M4 12h16M12 3v18"/></svg></span><span class="mi-tx"><span class="mi-t">Window Replacement</span><span class="mi-d">Fast commercial reglazing</span></span></a></div></div><div class="megapromo"><div class="mp-t">Not sure what you need?</div><p class="mp-p">Tell us about your commercial project and we'll advise — free, no obligation.</p><a class="mp-btn" href="/commercial-glass-services/">View all services</a></div></div></div></div>
 <div class="navdrop"><a href="/residential-glass-services/" style="color:#0d2340;display:inline-flex;align-items:center;gap:5px">Residential<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top:1px"><path d="m6 9 6 6 6-6"/></svg></a><div class="submenu"><div class="megaSolo"><div class="msol-main"><div class="mega-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg> Residential Glass Services</div><div class="msol-grid"><a class="megaitem" href="/emergency-home-glass-repair/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 20h20L12 2z"/><path d="M12 9v5M12 17h.01"/></svg></span><span class="mi-tx"><span class="mi-t">Emergency Home Glass</span><span class="mi-d">24/7 board-up & repair</span></span></a><a class="megaitem" href="/showers/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20v-8a6 6 0 0 1 12 0M16 6a2 2 0 1 1 4 0v6"/><path d="M8 20v.01M12 20v.01M16 20v.01"/></svg></span><span class="mi-tx"><span class="mi-t">Showers</span><span class="mi-d">Frameless enclosures</span></span></a><a class="megaitem" href="/mirrors/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="6"/><path d="M9 8h.01"/></svg></span><span class="mi-tx"><span class="mi-t">Mirrors</span><span class="mi-d">Vanity, gym & accent walls</span></span></a><a class="megaitem" href="/residential-glass-railings/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/><path d="M7 5v14M17 5v14"/></svg></span><span class="mi-tx"><span class="mi-t">Glass Railings</span><span class="mi-d">Stairs, decks & balconies</span></span></a><a class="megaitem" href="/residential-glass-solutions/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18"/></svg></span><span class="mi-tx"><span class="mi-t">Glass Solutions</span><span class="mi-d">Custom home glass</span></span></a><a class="megaitem" href="/residential-window-glass-replacement/"><span class="mi-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M4 12h16M12 3v18"/></svg></span><span class="mi-tx"><span class="mi-t">Window Replacement</span><span class="mi-d">Fast home reglazing</span></span></a></div></div><div class="megapromo megapromo-res"><div class="mp-t">Upgrading your home?</div><p class="mp-p">Get a free in-home estimate from our local glass experts.</p><a class="mp-btn" href="/residential-glass-services/">View all services</a></div></div></div></div>
 <a href="/capabilities/" style="color:#0d2340">Capabilities</a>
+<a href="/blogs/" style="color:#0d2340">Blogs</a>
 <a href="/contact/" style="color:#0d2340">Contact</a>
 </nav>
 <div style="display:flex;gap:12px;align-items:center">
 <a href="tel:+19738203489" class="call-link" aria-label="Call Luso Glass" title="Call (973) 820-3489" data-btn="icon" style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid #d3e4f6;border-radius:6px;color:#1874c0"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2z"/></svg></a>
-<a href="/contact/" data-btn="primary" style="background:#1874c0;color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:6px;box-shadow:0 4px 14px rgba(24,116,192,.3)">Get A Free Estimate</a>
+<a href="/contact/" class="header-cta" data-btn="primary" style="background:#1874c0;color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:6px;box-shadow:0 4px 14px rgba(24,116,192,.3)">Get A Free Estimate</a><button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
 </div>
 </div>
 </header>
+<div class="mobile-nav" id="mobileNav">
+<div style="max-width:1240px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between">
+<a href="/" style="display:flex;align-items:center"><img src="/assets/luso-logo.png" alt="Luso Glass" style="height:40px;width:auto;display:block"></a>
+<button type="button" class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu" style="background:none;border:0;padding:8px;cursor:pointer;color:#0d2340"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+</div>
+<div style="padding:12px 32px 40px;display:flex;flex-direction:column">
+<a href="/" style="padding:16px 0;border-bottom:1px solid #e4eaf1;font-weight:700;font-size:16px">Home</a>
+<a href="/about-us/" style="padding:16px 0;border-bottom:1px solid #e4eaf1;font-weight:700;font-size:16px">About Us</a>
+<a href="/commercial-glass-services/" style="padding:16px 0;border-bottom:1px solid #e4eaf1;font-weight:700;font-size:16px">Commercial Glass</a>
+<a href="/residential-glass-services/" style="padding:16px 0;border-bottom:1px solid #e4eaf1;font-weight:700;font-size:16px">Residential Glass</a>
+<a href="/capabilities/" style="padding:16px 0;border-bottom:1px solid #e4eaf1;font-weight:700;font-size:16px">Capabilities</a>
+<a href="/blogs/" style="padding:16px 0;border-bottom:1px solid #e4eaf1;font-weight:700;font-size:16px">Blogs</a>
+<a href="/contact/" style="padding:16px 0;border-bottom:1px solid #e4eaf1;font-weight:700;font-size:16px">Contact</a>
+<a href="tel:+19738203489" style="margin-top:22px;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #d3e4f6;color:#1874c0;font-weight:700;font-size:15px;padding:14px;border-radius:6px">Call (973) 820-3489</a>
+<a href="/contact/" data-btn="primary" style="margin-top:12px;text-align:center;background:#1874c0;color:#fff;font-weight:700;font-size:15px;padding:15px;border-radius:6px">Get A Free Estimate</a>
+</div>
+</div>
 
 <!-- PAGE HERO -->
 <section style="position:relative;background:#081b33;color:#fff;overflow:hidden">
@@ -258,7 +282,7 @@ a[data-social]:hover{background:#1874c0 !important;border-color:#1874c0 !importa
 <div>
 <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fff;margin-bottom:22px;font-weight:700">Company</div>
 <div style="display:flex;flex-direction:column;gap:14px;font-size:14px">
-<a href="/about-us/" style="color:#9fb0c6">About</a><a href="/service-areas/" style="color:#9fb0c6">Service Areas</a><a href="/#projects" style="color:#9fb0c6">Projects</a><a href="/#reviews" style="color:#9fb0c6">Blog</a><a href="/contact/" style="color:#9fb0c6">Contact</a>
+<a href="/about-us/" style="color:#9fb0c6">About</a><a href="/service-areas/" style="color:#9fb0c6">Service Areas</a><a href="/#projects" style="color:#9fb0c6">Projects</a><a href="/blogs/" style="color:#9fb0c6">Blog</a><a href="/contact/" style="color:#9fb0c6">Contact</a>
 </div>
 </div>
 <div>
