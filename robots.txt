@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lusoglass.com/sitemap.xml
