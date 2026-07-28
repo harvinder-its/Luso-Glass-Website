@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#e9e7e2;font-family:ui-sans-serif,system-ui,sans-serif;color:#2b2b2b}
+.doc{padding:44px}
+.intro{max-width:1200px;margin:0 auto 46px;background:#fff;border:1px solid #dcdad4;border-radius:16px;padding:34px 38px}
+.kicker{font:600 11px/1 ui-monospace,monospace;letter-spacing:.16em;text-transform:uppercase;color:#8a8a8a}
+.intro h1{font:700 27px/1.25 system-ui;margin:10px 0 6px}
+.intro .sub{font:14px/1.6;color:#5a5a5a;max-width:820px;margin:0 0 24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.panel{border:1px solid #e2e0da;border-radius:10px;padding:16px 18px;background:#faf9f7}
+.panel h3{font:600 11px/1 ui-monospace;letter-spacing:.09em;text-transform:uppercase;color:#7a7a7a;margin:0 0 11px}
+.panel ul{margin:0;padding-left:16px;font:12.5px/1.7;color:#4a4a4a}
+.panel ul li{margin-bottom:4px}
+.flow{margin-top:22px;padding-top:20px;border-top:1px solid #ece9e3}
+.flow h3{font:600 11px/1 ui-monospace;letter-spacing:.09em;text-transform:uppercase;color:#7a7a7a;margin:0 0 12px}
+.flowline{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:12px/1.4;color:#4a4a4a}
+.flowline span{background:#fff;border:1px solid #d8d6d0;border-radius:20px;padding:7px 13px}
+.flowline em{color:#b0b0b0;font-style:normal;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:20px;font:12px/1.4;color:#6a6a6a}
+.legend div{display:flex;align-items:center;gap:7px}
+.lg{width:24px;height:14px;border-radius:3px}
+.frames{display:flex;gap:56px;align-items:flex-start;flex-wrap:nowrap;width:max-content;margin:0 auto}
+.device{flex:none}
+.dhead{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+.dhead b{font:700 15px system-ui}
+.dhead span{font:12px ui-monospace;color:#8a8a8a}
+.screen{background:#fff;border:1px solid #cfccc4;border-radius:14px;overflow:hidden;box-shadow:0 10px 34px rgba(0,0,0,.08)}
+.sec{position:relative;padding:26px 26px}
+.sec+.sec{border-top:1px dashed #e2e0da}
+.slabel{position:absolute;top:7px;left:11px;font:600 8.5px ui-monospace;letter-spacing:.12em;color:#bbb8b1;text-transform:uppercase}
+.pin{position:absolute;top:9px;right:10px;width:23px;height:23px;border-radius:50%;background:#3a6ea5;color:#fff;font:700 11px system-ui;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.28);z-index:2}
+.bar{height:13px;background:#d2d0ca;border-radius:4px}
+.bar.t{height:9px;background:#dedcd6}
+.bar.h{height:28px;background:#bcb9b2;border-radius:5px}
+.bar.hh{height:19px;background:#c7c4bd;border-radius:5px}
+.stack>*+*{margin-top:9px}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 20px;background:#4a4a4a;color:#fff;border-radius:7px;font:600 12px system-ui;white-space:nowrap}
+.btn.g{background:transparent;color:#5a5a5a;border:1.5px solid #b8b5ae}
+.btn.sm{height:32px;padding:0 13px;font-size:11px}
+.btn.blk{width:100%}
+.img{background:repeating-linear-gradient(45deg,#e5e3dd,#e5e3dd 9px,#dbd9d2 9px,#dbd9d2 18px);border:1px solid #d5d2cb;border-radius:9px;display:flex;align-items:center;justify-content:center;font:600 11px ui-monospace;color:#a9a69f}
+.card{border:1px solid #e2e0da;border-radius:11px;background:#fafaf8;padding:15px}
+.icon{width:42px;height:42px;border-radius:10px;background:#d7d5ce;flex:none}
+.avatar{width:38px;height:38px;border-radius:50%;background:#d2d0ca;flex:none}
+.chip{display:inline-flex;height:27px;align-items:center;padding:0 13px;border:1px solid #d3d0c9;border-radius:16px;background:#fff;font:11px system-ui;color:#7d7a73}
+.row{display:flex;gap:13px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.stars{height:13px;width:88px;background:#cfcdc6;border-radius:3px}
+.util{background:#3a3a3a;color:#cfcdc6;font:11px system-ui;padding:9px 26px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.util .u{background:#565654;height:11px;border-radius:3px}
+.nav{padding:18px 26px;display:flex;align-items:center;justify-content:space-between}
+.logo{width:104px;height:28px;background:#c9c6bf;border-radius:6px;flex:none}
+.navlinks{display:flex;gap:18px}
+.navlinks .bar{width:54px;height:10px;background:#d7d5ce}
+.hamb{width:28px;height:19px;display:flex;flex-direction:column;justify-content:space-between;flex:none}
+.hamb i{height:3px;background:#9a9790;border-radius:2px}
+.faqrow{display:flex;align-items:center;justify-content:space-between;padding:14px 15px;border:1px solid #e2e0da;border-radius:9px;background:#fafaf8}
+.faqrow .plus{width:16px;height:16px;position:relative;flex:none}
+.faqrow .plus:before,.faqrow .plus:after{content:"";position:absolute;background:#a7a49d}
+.faqrow .plus:before{left:7px;top:0;width:2px;height:16px}
+.faqrow .plus:after{top:7px;left:0;height:2px;width:16px}
+.step{position:relative;flex:1;text-align:center}
+.stepnum{width:34px;height:34px;border-radius:50%;border:2px solid #cdcac3;display:flex;align-items:center;justify-content:center;font:700 12px ui-monospace;color:#a7a49d;margin:0 auto 10px;background:#fff}
+.formfield{height:38px;border:1px solid #dbd9d2;border-radius:7px;background:#fdfdfc}
+.spec{max-width:1200px;margin:52px auto 0}
+.spec>h2{font:700 20px system-ui;margin:0 0 4px}
+.spec>p{font:13px/1.6;color:#6a6a6a;margin:0 0 22px}
+.speccards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.sc{border:1px solid #e2e0da;border-radius:13px;background:#fff;padding:19px 21px}
+.sc .schd{display:flex;align-items:center;gap:11px;margin-bottom:4px}
+.sc .num{width:24px;height:24px;border-radius:50%;background:#3a6ea5;color:#fff;font:700 11px system-ui;display:flex;align-items:center;justify-content:center;flex:none}
+.sc h4{font:700 15px system-ui;margin:0}
+.sc dl{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;margin:13px 0 0;font:12.5px/1.5}
+.sc dt{font-weight:600;color:#8a8a8a;white-space:nowrap}
+.sc dd{margin:0;color:#4a4a4a}
+.foot{max-width:1200px;margin:40px auto 0;font:12px/1.6 system-ui;color:#8a8a8a;text-align:center}
+</style>
+</helmet>
+
+<div class="doc">
+
+<div class="intro">
+<div class="kicker">Lo-Fi Wireframe · Deliverable 1 of 10</div>
+<h1>Luso Glass — Home Page Wireframe</h1>
+<p class="sub">Grayscale, low-fidelity structure for the Home page across desktop, tablet &amp; mobile. Numbered pins (①–⑬) map every section to the annotated spec below — purpose, user goal, business goal, CTA placement &amp; content hierarchy. This is the first of ten pages; approve the direction here and I'll roll out the rest.</p>
+
+<div class="grid3">
+<div class="panel">
+<h3>Problems in current site</h3>
+<ul>
+<li>No clear Commercial vs Residential split — visitors can't self-identify</li>
+<li>Emergency / 24-7 service buried, not surfaced</li>
+<li>Projects &amp; gallery thin — no case studies or proof</li>
+<li>14-county service area invisible (lost local SEO)</li>
+<li>Weak trust signals; no single obvious quote path</li>
+</ul>
+</div>
+<div class="panel">
+<h3>New Information Architecture</h3>
+<ul>
+<li>Home</li>
+<li>Services → Commercial · Residential → individual service pages</li>
+<li>Projects → case studies · Gallery</li>
+<li>About · Process · Service Areas</li>
+<li>Blog → article · Contact (primary lead hub)</li>
+</ul>
+</div>
+<div class="panel">
+<h3>Conversion strategy</h3>
+<ul>
+<li>Primary: free on-site estimate (form)</li>
+<li>Secondary: click-to-call, always visible</li>
+<li>Tertiary: multi-step quote wizard</li>
+<li>Repeating CTAs down the page + sticky mobile bar</li>
+<li>Trust before ask at every step</li>
+</ul>
+</div>
+</div>
+
+<div class="flow">
+<h3>Primary conversion flow</h3>
+<div class="flowline">
+<span>Land on Home</span><em>→</em>
+<span>Self-identify: Commercial / Residential</span><em>→</em>
+<span>Service page (proof + specifics)</span><em>→</em>
+<span>See relevant project / reviews</span><em>→</em>
+<span>Estimate form or click-to-call</span><em>→</em>
+<span>Confirmation + what happens next</span>
+</div>
+</div>
+
+<div class="legend">
+<div><span class="lg" style="background:#d2d0ca"></span>Text / content block</div>
+<div><span class="lg img" style="height:14px"></span>Image / media placeholder</div>
+<div><span class="lg" style="background:#4a4a4a"></span>Primary CTA</div>
+<div><span class="lg" style="background:#fff;border:1.5px solid #b8b5ae"></span>Secondary CTA</div>
+<div><span class="lg" style="width:14px;background:#3a6ea5;border-radius:50%"></span>Annotation pin → spec panel</div>
+</div>
+</div>
+
+<div class="frames">
+
+<!-- ========================= DESKTOP ========================= -->
+<div class="device">
+<div class="dhead"><b>Desktop</b><span>1440px</span></div>
+<div class="screen" style="width:1120px">
+
+<div class="sec" style="padding:0">
+<span class="pin" style="top:9px;right:10px">1</span>
+<div class="util">
+<div style="display:flex;gap:20px;align-items:center">
+<span style="font:11px system-ui;color:#cfcdc6;white-space:nowrap">📞 Call 24/7 — Emergency board-up &amp; glass repair</span>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<div class="u" style="width:90px"></div>
+<div class="u" style="width:80px"></div>
+</div>
+</div>
+</div>
+
+<div class="sec" style="padding:0">
+<span class="slabel">Header &amp; Nav</span><span class="pin">2</span>
+<div class="nav">
+<div class="logo"></div>
+<div class="navlinks">
+<div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+</div>
+<div class="row" style="align-items:center">
+<div class="btn g sm">Call now</div>
+<div class="btn sm">Free Estimate</div>
+</div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">Hero</span><span class="pin">3</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center">
+<div class="stack">
+<div class="chip">Premium architectural glass · Since 19XX</div>
+<div class="bar h" style="width:95%"></div>
+<div class="bar h" style="width:70%"></div>
+<div class="bar t" style="width:100%;margin-top:6px"></div>
+<div class="bar t" style="width:88%"></div>
+<div class="row" style="margin-top:10px">
+<div class="btn">Get a Free Estimate</div>
+<div class="btn g">See Our Work</div>
+</div>
+<div class="row" style="margin-top:8px;align-items:center">
+<div class="stars"></div>
+<div class="bar t" style="width:130px"></div>
+</div>
+</div>
+<div class="img" style="height:290px"></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Trust Indicators</span><span class="pin">4</span>
+<div class="between" style="opacity:.9">
+<div class="stack" style="text-align:center;flex:1"><div class="bar h" style="width:56px;margin:0 auto"></div><div class="bar t" style="width:80px;margin:6px auto 0"></div></div>
+<div class="stack" style="text-align:center;flex:1"><div class="bar h" style="width:56px;margin:0 auto"></div><div class="bar t" style="width:80px;margin:6px auto 0"></div></div>
+<div class="stack" style="text-align:center;flex:1"><div class="bar h" style="width:56px;margin:0 auto"></div><div class="bar t" style="width:80px;margin:6px auto 0"></div></div>
+<div class="stack" style="text-align:center;flex:1"><div class="bar h" style="width:56px;margin:0 auto"></div><div class="bar t" style="width:80px;margin:6px auto 0"></div></div>
+<div style="width:1px;height:44px;background:#e2e0da"></div>
+<div class="row" style="flex:1;justify-content:center"><div class="icon"></div><div class="icon"></div><div class="icon"></div></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Featured Services</span><span class="pin">5</span>
+<div class="stack" style="text-align:center;margin-bottom:16px"><div class="bar hh" style="width:280px;margin:0 auto"></div><div class="bar t" style="width:380px;margin:0 auto"></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="card" style="padding:0;overflow:hidden">
+<div class="img" style="height:120px;border:0;border-radius:0"></div>
+<div class="stack" style="padding:16px"><div class="bar hh" style="width:60%"></div><div class="bar t" style="width:100%"></div><div class="bar t" style="width:80%"></div><div class="btn g sm" style="margin-top:4px">Explore Commercial →</div></div>
+</div>
+<div class="card" style="padding:0;overflow:hidden">
+<div class="img" style="height:120px;border:0;border-radius:0"></div>
+<div class="stack" style="padding:16px"><div class="bar hh" style="width:60%"></div><div class="bar t" style="width:100%"></div><div class="bar t" style="width:80%"></div><div class="btn g sm" style="margin-top:4px">Explore Residential →</div></div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px">
+<div class="card"><div class="icon"></div><div class="bar t" style="width:80%;margin-top:10px"></div></div>
+<div class="card"><div class="icon"></div><div class="bar t" style="width:80%;margin-top:10px"></div></div>
+<div class="card"><div class="icon"></div><div class="bar t" style="width:80%;margin-top:10px"></div></div>
+<div class="card"><div class="icon"></div><div class="bar t" style="width:80%;margin-top:10px"></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">Why Choose Us</span><span class="pin">6</span>
+<div style="display:grid;grid-template-columns:1fr 2fr;gap:28px">
+<div class="stack"><div class="bar hh" style="width:80%"></div><div class="bar t" style="width:100%"></div><div class="bar t" style="width:70%"></div><div class="btn g sm" style="margin-top:6px">About Us →</div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:60%"></div><div class="bar t" style="width:100%"></div></div></div>
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:60%"></div><div class="bar t" style="width:100%"></div></div></div>
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:60%"></div><div class="bar t" style="width:100%"></div></div></div>
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:60%"></div><div class="bar t" style="width:100%"></div></div></div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Projects Showcase</span><span class="pin">7</span>
+<div class="between" style="margin-bottom:14px"><div class="stack"><div class="bar hh" style="width:220px"></div><div class="bar t" style="width:300px"></div></div><div class="btn g sm">View All Projects</div></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+<div class="card" style="padding:0;overflow:hidden"><div class="img" style="height:140px;border:0;border-radius:0"></div><div class="stack" style="padding:13px"><div class="chip">Commercial</div><div class="bar" style="width:80%"></div><div class="bar t" style="width:100%"></div></div></div>
+<div class="card" style="padding:0;overflow:hidden"><div class="img" style="height:140px;border:0;border-radius:0"></div><div class="stack" style="padding:13px"><div class="chip">Residential</div><div class="bar" style="width:80%"></div><div class="bar t" style="width:100%"></div></div></div>
+<div class="card" style="padding:0;overflow:hidden"><div class="img" style="height:140px;border:0;border-radius:0"></div><div class="stack" style="padding:13px"><div class="chip">Commercial</div><div class="bar" style="width:80%"></div><div class="bar t" style="width:100%"></div></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">Process</span><span class="pin">8</span>
+<div class="stack" style="text-align:center;margin-bottom:20px"><div class="bar hh" style="width:260px;margin:0 auto"></div><div class="bar t" style="width:360px;margin:0 auto"></div></div>
+<div class="row" style="align-items:flex-start">
+<div class="step"><div class="stepnum">1</div><div class="bar" style="width:70%;margin:0 auto"></div><div class="bar t" style="width:90%;margin:7px auto 0"></div></div>
+<div class="step"><div class="stepnum">2</div><div class="bar" style="width:70%;margin:0 auto"></div><div class="bar t" style="width:90%;margin:7px auto 0"></div></div>
+<div class="step"><div class="stepnum">3</div><div class="bar" style="width:70%;margin:0 auto"></div><div class="bar t" style="width:90%;margin:7px auto 0"></div></div>
+<div class="step"><div class="stepnum">4</div><div class="bar" style="width:70%;margin:0 auto"></div><div class="bar t" style="width:90%;margin:7px auto 0"></div></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Testimonials</span><span class="pin">9</span>
+<div class="stack" style="text-align:center;margin-bottom:16px"><div class="bar hh" style="width:240px;margin:0 auto"></div></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+<div class="card"><div class="stars"></div><div class="stack" style="margin-top:10px"><div class="bar t" style="width:100%"></div><div class="bar t" style="width:100%"></div><div class="bar t" style="width:60%"></div></div><div class="row" style="margin-top:12px;align-items:center"><div class="avatar"></div><div class="bar t" style="width:80px"></div></div></div>
+<div class="card"><div class="stars"></div><div class="stack" style="margin-top:10px"><div class="bar t" style="width:100%"></div><div class="bar t" style="width:100%"></div><div class="bar t" style="width:60%"></div></div><div class="row" style="margin-top:12px;align-items:center"><div class="avatar"></div><div class="bar t" style="width:80px"></div></div></div>
+<div class="card"><div class="stars"></div><div class="stack" style="margin-top:10px"><div class="bar t" style="width:100%"></div><div class="bar t" style="width:100%"></div><div class="bar t" style="width:60%"></div></div><div class="row" style="margin-top:12px;align-items:center"><div class="avatar"></div><div class="bar t" style="width:80px"></div></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">FAQ</span><span class="pin">10</span>
+<div class="stack" style="text-align:center;margin-bottom:16px"><div class="bar hh" style="width:220px;margin:0 auto"></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="faqrow"><div class="bar" style="width:70%"></div><div class="plus"></div></div>
+<div class="faqrow"><div class="bar" style="width:70%"></div><div class="plus"></div></div>
+<div class="faqrow"><div class="bar" style="width:60%"></div><div class="plus"></div></div>
+<div class="faqrow"><div class="bar" style="width:65%"></div><div class="plus"></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#3f3f3d">
+<span class="slabel" style="color:#6f6f6c">CTA Section</span><span class="pin">11</span>
+<div class="between">
+<div class="stack"><div class="bar h" style="width:340px;background:#6a6a67"></div><div class="bar t" style="width:280px;background:#5c5c59"></div></div>
+<div class="row"><div class="btn" style="background:#e9e7e2;color:#3f3f3d">Get Free Estimate</div><div class="btn g" style="border-color:#6a6a67;color:#cfcdc6">Call Now</div></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Contact Form</span><span class="pin">12</span>
+<div style="display:grid;grid-template-columns:1.2fr 1fr;gap:28px">
+<div class="stack">
+<div class="bar hh" style="width:60%"></div>
+<div class="bar t" style="width:90%"></div>
+<div class="row"><div class="formfield" style="flex:1"></div><div class="formfield" style="flex:1"></div></div>
+<div class="row"><div class="formfield" style="flex:1"></div><div class="formfield" style="flex:1"></div></div>
+<div class="formfield" style="height:80px"></div>
+<div class="btn blk">Request My Free Estimate</div>
+</div>
+<div class="stack">
+<div class="img" style="height:130px"></div>
+<div class="row" style="align-items:center"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar t" style="width:60%"></div><div class="bar t" style="width:80%"></div></div></div>
+<div class="row" style="align-items:center"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar t" style="width:60%"></div><div class="bar t" style="width:80%"></div></div></div>
+</div>
+</div>
+</div>
+
+<div class="sec" style="background:#2f2f2d">
+<span class="slabel" style="color:#5a5a57">Footer</span><span class="pin">13</span>
+<div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:22px">
+<div class="stack"><div class="logo" style="background:#565654"></div><div class="bar t" style="width:100%;background:#4a4a47"></div><div class="bar t" style="width:80%;background:#4a4a47"></div></div>
+<div class="stack"><div class="bar t" style="width:50%;background:#565654"></div><div class="bar t" style="width:70%;background:#4a4a47"></div><div class="bar t" style="width:65%;background:#4a4a47"></div><div class="bar t" style="width:70%;background:#4a4a47"></div></div>
+<div class="stack"><div class="bar t" style="width:50%;background:#565654"></div><div class="bar t" style="width:70%;background:#4a4a47"></div><div class="bar t" style="width:65%;background:#4a4a47"></div><div class="bar t" style="width:70%;background:#4a4a47"></div></div>
+<div class="stack"><div class="bar t" style="width:70%;background:#565654"></div><div class="bar t" style="width:100%;background:#4a4a47"></div><div class="bar t" style="width:90%;background:#4a4a47"></div><div class="row"><div class="icon" style="width:28px;height:28px;background:#4a4a47"></div><div class="icon" style="width:28px;height:28px;background:#4a4a47"></div><div class="icon" style="width:28px;height:28px;background:#4a4a47"></div></div></div>
+</div>
+<div class="bar t" style="width:100%;background:#3a3a37;margin-top:18px;height:1px"></div>
+<div class="between" style="margin-top:12px"><div class="bar t" style="width:180px;background:#4a4a47"></div><div class="bar t" style="width:220px;background:#4a4a47"></div></div>
+</div>
+
+</div>
+</div>
+
+<!-- ========================= TABLET ========================= -->
+<div class="device">
+<div class="dhead"><b>Tablet</b><span>768px</span></div>
+<div class="screen" style="width:600px">
+
+<div class="util" style="padding:8px 18px"><span style="font:11px system-ui;color:#cfcdc6;white-space:nowrap">📞 24/7 Emergency</span><div class="u" style="width:90px"></div></div>
+
+<div class="sec" style="padding:0">
+<span class="slabel">Header &amp; Nav</span><span class="pin">2</span>
+<div class="nav" style="padding:14px 18px">
+<div class="logo"></div>
+<div class="row" style="align-items:center"><div class="btn sm">Free Estimate</div><div class="hamb"><i></i><i></i><i></i></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">Hero</span><span class="pin">3</span>
+<div class="stack" style="text-align:center">
+<div class="chip" style="margin:0 auto">Premium architectural glass</div>
+<div class="bar h" style="width:90%;margin:0 auto"></div>
+<div class="bar h" style="width:60%;margin:0 auto"></div>
+<div class="bar t" style="width:80%;margin:6px auto 0"></div>
+<div class="row" style="justify-content:center;margin-top:8px"><div class="btn">Free Estimate</div><div class="btn g">See Work</div></div>
+<div class="img" style="height:190px;margin-top:14px"></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Trust Indicators</span><span class="pin">4</span>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center">
+<div class="stack"><div class="bar h" style="width:40px;margin:0 auto"></div><div class="bar t" style="width:60px;margin:5px auto 0"></div></div>
+<div class="stack"><div class="bar h" style="width:40px;margin:0 auto"></div><div class="bar t" style="width:60px;margin:5px auto 0"></div></div>
+<div class="stack"><div class="bar h" style="width:40px;margin:0 auto"></div><div class="bar t" style="width:60px;margin:5px auto 0"></div></div>
+<div class="stack"><div class="bar h" style="width:40px;margin:0 auto"></div><div class="bar t" style="width:60px;margin:5px auto 0"></div></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Featured Services</span><span class="pin">5</span>
+<div class="stack" style="text-align:center;margin-bottom:14px"><div class="bar hh" style="width:200px;margin:0 auto"></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="card" style="padding:0;overflow:hidden"><div class="img" style="height:90px;border:0;border-radius:0"></div><div class="stack" style="padding:12px"><div class="bar" style="width:70%"></div><div class="bar t" style="width:100%"></div><div class="btn g sm">Commercial →</div></div></div>
+<div class="card" style="padding:0;overflow:hidden"><div class="img" style="height:90px;border:0;border-radius:0"></div><div class="stack" style="padding:12px"><div class="bar" style="width:70%"></div><div class="bar t" style="width:100%"></div><div class="btn g sm">Residential →</div></div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px">
+<div class="card"><div class="row"><div class="icon"></div><div class="bar t" style="width:60%;align-self:center"></div></div></div>
+<div class="card"><div class="row"><div class="icon"></div><div class="bar t" style="width:60%;align-self:center"></div></div></div>
+<div class="card"><div class="row"><div class="icon"></div><div class="bar t" style="width:60%;align-self:center"></div></div></div>
+<div class="card"><div class="row"><div class="icon"></div><div class="bar t" style="width:60%;align-self:center"></div></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">Why Choose Us</span><span class="pin">6</span>
+<div class="stack" style="margin-bottom:12px"><div class="bar hh" style="width:60%"></div><div class="bar t" style="width:100%"></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:70%"></div><div class="bar t" style="width:100%"></div></div></div>
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:70%"></div><div class="bar t" style="width:100%"></div></div></div>
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:70%"></div><div class="bar t" style="width:100%"></div></div></div>
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:70%"></div><div class="bar t" style="width:100%"></div></div></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Projects Showcase</span><span class="pin">7</span>
+<div class="between" style="margin-bottom:12px"><div class="bar hh" style="width:180px"></div><div class="btn g sm">View All</div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="card" style="padding:0;overflow:hidden"><div class="img" style="height:100px;border:0;border-radius:0"></div><div class="stack" style="padding:11px"><div class="chip">Commercial</div><div class="bar" style="width:80%"></div></div></div>
+<div class="card" style="padding:0;overflow:hidden"><div class="img" style="height:100px;border:0;border-radius:0"></div><div class="stack" style="padding:11px"><div class="chip">Residential</div><div class="bar" style="width:80%"></div></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">Process</span><span class="pin">8</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="step"><div class="stepnum">1</div><div class="bar" style="width:70%;margin:0 auto"></div></div>
+<div class="step"><div class="stepnum">2</div><div class="bar" style="width:70%;margin:0 auto"></div></div>
+<div class="step"><div class="stepnum">3</div><div class="bar" style="width:70%;margin:0 auto"></div></div>
+<div class="step"><div class="stepnum">4</div><div class="bar" style="width:70%;margin:0 auto"></div></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Testimonials</span><span class="pin">9</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="card"><div class="stars"></div><div class="stack" style="margin-top:9px"><div class="bar t" style="width:100%"></div><div class="bar t" style="width:70%"></div></div><div class="row" style="margin-top:10px;align-items:center"><div class="avatar"></div><div class="bar t" style="width:70px"></div></div></div>
+<div class="card"><div class="stars"></div><div class="stack" style="margin-top:9px"><div class="bar t" style="width:100%"></div><div class="bar t" style="width:70%"></div></div><div class="row" style="margin-top:10px;align-items:center"><div class="avatar"></div><div class="bar t" style="width:70px"></div></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">FAQ</span><span class="pin">10</span>
+<div class="stack">
+<div class="faqrow"><div class="bar" style="width:70%"></div><div class="plus"></div></div>
+<div class="faqrow"><div class="bar" style="width:60%"></div><div class="plus"></div></div>
+<div class="faqrow"><div class="bar" style="width:65%"></div><div class="plus"></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#3f3f3d">
+<span class="slabel" style="color:#6f6f6c">CTA Section</span><span class="pin">11</span>
+<div class="stack" style="text-align:center"><div class="bar h" style="width:80%;margin:0 auto;background:#6a6a67"></div><div class="row" style="justify-content:center;margin-top:6px"><div class="btn" style="background:#e9e7e2;color:#3f3f3d">Free Estimate</div><div class="btn g" style="border-color:#6a6a67;color:#cfcdc6">Call</div></div></div>
+</div>
+
+<div class="sec">
+<span class="slabel">Contact Form</span><span class="pin">12</span>
+<div class="stack">
+<div class="bar hh" style="width:60%"></div>
+<div class="row"><div class="formfield" style="flex:1"></div><div class="formfield" style="flex:1"></div></div>
+<div class="formfield"></div>
+<div class="formfield" style="height:70px"></div>
+<div class="btn blk">Request Free Estimate</div>
+</div>
+</div>
+
+<div class="sec" style="background:#2f2f2d">
+<span class="slabel" style="color:#5a5a57">Footer</span><span class="pin">13</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+<div class="stack"><div class="logo" style="background:#565654"></div><div class="bar t" style="width:90%;background:#4a4a47"></div></div>
+<div class="stack"><div class="bar t" style="width:60%;background:#565654"></div><div class="bar t" style="width:80%;background:#4a4a47"></div><div class="bar t" style="width:70%;background:#4a4a47"></div></div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ========================= MOBILE ========================= -->
+<div class="device">
+<div class="dhead"><b>Mobile</b><span>375px</span></div>
+<div class="screen" style="width:360px;position:relative">
+
+<div class="util" style="padding:7px 14px;font-size:10px"><span style="font:10px system-ui;color:#cfcdc6;white-space:nowrap">📞 24/7 Emergency</span><div class="u" style="width:50px"></div></div>
+
+<div class="sec" style="padding:0">
+<span class="pin">2</span>
+<div class="nav" style="padding:12px 14px">
+<div class="logo" style="width:84px;height:24px"></div>
+<div class="row" style="align-items:center"><div class="btn sm">Quote</div><div class="hamb"><i></i><i></i><i></i></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">Hero</span><span class="pin">3</span>
+<div class="stack" style="text-align:center">
+<div class="chip" style="margin:0 auto">Architectural glass</div>
+<div class="bar h" style="width:95%;margin:0 auto"></div>
+<div class="bar h" style="width:70%;margin:0 auto"></div>
+<div class="bar t" style="width:90%;margin:4px auto 0"></div>
+<div class="btn blk" style="margin-top:8px">Get a Free Estimate</div>
+<div class="btn g blk">See Our Work</div>
+<div class="img" style="height:150px;margin-top:12px"></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Trust</span><span class="pin">4</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center">
+<div class="stack"><div class="bar h" style="width:44px;margin:0 auto"></div><div class="bar t" style="width:70px;margin:5px auto 0"></div></div>
+<div class="stack"><div class="bar h" style="width:44px;margin:0 auto"></div><div class="bar t" style="width:70px;margin:5px auto 0"></div></div>
+</div>
+<div class="row" style="justify-content:center;margin-top:12px"><div class="icon"></div><div class="icon"></div><div class="icon"></div></div>
+</div>
+
+<div class="sec">
+<span class="slabel">Featured Services</span><span class="pin">5</span>
+<div class="stack">
+<div class="card" style="padding:0;overflow:hidden"><div class="img" style="height:80px;border:0;border-radius:0"></div><div class="stack" style="padding:12px"><div class="bar" style="width:60%"></div><div class="btn g sm blk">Commercial →</div></div></div>
+<div class="card" style="padding:0;overflow:hidden"><div class="img" style="height:80px;border:0;border-radius:0"></div><div class="stack" style="padding:12px"><div class="bar" style="width:60%"></div><div class="btn g sm blk">Residential →</div></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">Why Choose Us</span><span class="pin">6</span>
+<div class="stack">
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:60%"></div><div class="bar t" style="width:100%"></div></div></div>
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:60%"></div><div class="bar t" style="width:100%"></div></div></div>
+<div class="row"><div class="icon"></div><div class="stack" style="flex:1"><div class="bar" style="width:60%"></div><div class="bar t" style="width:100%"></div></div></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Projects</span><span class="pin">7</span>
+<div class="stack">
+<div class="card" style="padding:0;overflow:hidden"><div class="img" style="height:110px;border:0;border-radius:0"></div><div class="stack" style="padding:11px"><div class="chip">Commercial</div><div class="bar" style="width:70%"></div></div></div>
+<div class="btn g sm blk">View All Projects</div>
+</div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">Process</span><span class="pin">8</span>
+<div class="stack">
+<div class="row" style="align-items:center"><div class="stepnum" style="margin:0">1</div><div class="bar" style="width:60%"></div></div>
+<div class="row" style="align-items:center"><div class="stepnum" style="margin:0">2</div><div class="bar" style="width:60%"></div></div>
+<div class="row" style="align-items:center"><div class="stepnum" style="margin:0">3</div><div class="bar" style="width:60%"></div></div>
+<div class="row" style="align-items:center"><div class="stepnum" style="margin:0">4</div><div class="bar" style="width:60%"></div></div>
+</div>
+</div>
+
+<div class="sec">
+<span class="slabel">Testimonials</span><span class="pin">9</span>
+<div class="card"><div class="stars"></div><div class="stack" style="margin-top:9px"><div class="bar t" style="width:100%"></div><div class="bar t" style="width:70%"></div></div><div class="row" style="margin-top:10px;align-items:center"><div class="avatar"></div><div class="bar t" style="width:80px"></div></div></div>
+</div>
+
+<div class="sec" style="background:#fbfbf9">
+<span class="slabel">FAQ</span><span class="pin">10</span>
+<div class="stack">
+<div class="faqrow"><div class="bar" style="width:65%"></div><div class="plus"></div></div>
+<div class="faqrow"><div class="bar" style="width:55%"></div><div class="plus"></div></div>
+</div>
+</div>
+
+<div class="sec" style="background:#3f3f3d">
+<span class="slabel" style="color:#6f6f6c">CTA</span><span class="pin">11</span>
+<div class="stack" style="text-align:center"><div class="bar h" style="width:90%;margin:0 auto;background:#6a6a67"></div><div class="btn blk" style="background:#e9e7e2;color:#3f3f3d;margin-top:6px">Free Estimate</div></div>
+</div>
+
+<div class="sec">
+<span class="slabel">Contact Form</span><span class="pin">12</span>
+<div class="stack">
+<div class="bar hh" style="width:70%"></div>
+<div class="formfield"></div>
+<div class="formfield"></div>
+<div class="formfield" style="height:64px"></div>
+<div class="btn blk">Request Free Estimate</div>
+</div>
+</div>
+
+<div class="sec" style="background:#2f2f2d;padding-bottom:70px">
+<span class="slabel" style="color:#5a5a57">Footer</span><span class="pin">13</span>
+<div class="stack"><div class="logo" style="background:#565654"></div><div class="bar t" style="width:90%;background:#4a4a47"></div><div class="bar t" style="width:70%;background:#4a4a47"></div><div class="row"><div class="icon" style="width:26px;height:26px;background:#4a4a47"></div><div class="icon" style="width:26px;height:26px;background:#4a4a47"></div><div class="icon" style="width:26px;height:26px;background:#4a4a47"></div></div></div>
+</div>
+
+<div style="position:sticky;bottom:0;background:#fff;border-top:1px solid #e2e0da;padding:10px 14px;display:flex;gap:10px">
+<div class="btn g" style="flex:1">📞 Call</div>
+<div class="btn" style="flex:1">Free Estimate</div>
+<span class="pin" style="position:absolute;top:-11px;right:10px">14</span>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div class="spec">
+<h2>Section-by-section annotations</h2>
+<p>Each card maps to a numbered pin on the wireframes above.</p>
+<div class="speccards">
+
+<div class="sc">
+<div class="schd"><span class="num">1</span><h4>Utility / Emergency Bar</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Persistent top strip surfacing 24/7 emergency glass service &amp; phone — the current site's biggest gap.</dd>
+<dt>User goal</dt><dd>Reach help fast in an urgent situation (broken storefront, break-in).</dd>
+<dt>Business goal</dt><dd>Capture high-intent emergency calls instantly; signal availability.</dd>
+<dt>CTA</dt><dd>Click-to-call number, always visible.</dd>
+<dt>Hierarchy</dt><dd>Emergency phone left · secondary links right; low visual weight but never hidden.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">2</span><h4>Header &amp; Navigation</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Orient users and expose the new IA (Commercial / Residential split, Projects, Service Areas).</dd>
+<dt>User goal</dt><dd>Find the right path in one glance; know how to get a quote.</dd>
+<dt>Business goal</dt><dd>Keep the estimate CTA in reach on every page; reduce bounce.</dd>
+<dt>CTA</dt><dd>"Free Estimate" button (primary) + "Call" (secondary), pinned right. Collapses to hamburger + persistent Quote on tablet/mobile.</dd>
+<dt>Hierarchy</dt><dd>Logo → nav → CTA cluster, left-to-right scan.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">3</span><h4>Hero</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Communicate premium positioning + core value in 3 seconds.</dd>
+<dt>User goal</dt><dd>Confirm they're in the right place; understand what's offered.</dd>
+<dt>Business goal</dt><dd>Drive the primary conversion above the fold.</dd>
+<dt>CTA</dt><dd>Dual: "Get a Free Estimate" (primary) + "See Our Work" (secondary). Stacks full-width on mobile.</dd>
+<dt>Hierarchy</dt><dd>Eyebrow → headline → subcopy → CTAs → inline rating. Image right (desktop), below (mobile).</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">4</span><h4>Trust Indicators</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Immediately de-risk with stats, years in business, licenses &amp; certifications.</dd>
+<dt>User goal</dt><dd>Decide the company is credible before reading further.</dd>
+<dt>Business goal</dt><dd>Raise conversion by front-loading proof.</dd>
+<dt>CTA</dt><dd>None — supporting band.</dd>
+<dt>Hierarchy</dt><dd>Key metric numbers largest; badges/logos secondary. 4-up → 2-up responsive.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">5</span><h4>Featured Services</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Fix the core IA problem — two large cards let users self-identify Commercial vs Residential, then drill to specific services.</dd>
+<dt>User goal</dt><dd>Get to their relevant service page in one click.</dd>
+<dt>Business goal</dt><dd>Route traffic into segmented, higher-converting funnels.</dd>
+<dt>CTA</dt><dd>"Explore Commercial / Residential →" per card; tiles link to individual service pages.</dd>
+<dt>Hierarchy</dt><dd>Two hero cards → 4 quick service tiles. 2-col → 1-col on mobile.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">6</span><h4>Why Choose Us</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Differentiate on craftsmanship, warranty, speed, local expertise.</dd>
+<dt>User goal</dt><dd>Understand why this company over competitors.</dd>
+<dt>Business goal</dt><dd>Justify premium pricing; reduce comparison shopping.</dd>
+<dt>CTA</dt><dd>Soft "About Us →" link.</dd>
+<dt>Hierarchy</dt><dd>Intro statement + 4 icon/benefit pairs in a grid.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">7</span><h4>Projects Showcase</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Replace the weak current gallery with real, tagged case studies (Commercial/Residential).</dd>
+<dt>User goal</dt><dd>See proof of comparable work at their scale.</dd>
+<dt>Business goal</dt><dd>Build desire + funnel to full Projects page.</dd>
+<dt>CTA</dt><dd>"View All Projects"; each card links to a case study.</dd>
+<dt>Hierarchy</dt><dd>Section title + 3 featured cards. 3 → 2 → 1 column.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">8</span><h4>Process</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Remove uncertainty by showing the simple 4-step journey from quote to install.</dd>
+<dt>User goal</dt><dd>Know what committing looks like &amp; how easy it is.</dd>
+<dt>Business goal</dt><dd>Lower friction before the ask; set expectations.</dd>
+<dt>CTA</dt><dd>None — leads into the CTA band.</dd>
+<dt>Hierarchy</dt><dd>Numbered steps, horizontal on desktop → vertical timeline on mobile.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">9</span><h4>Testimonials</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Social proof from named, local customers with ratings.</dd>
+<dt>User goal</dt><dd>Trust the outcome via peer validation.</dd>
+<dt>Business goal</dt><dd>Boost conversion right before the FAQ/CTA.</dd>
+<dt>CTA</dt><dd>Optional "Read all reviews" link.</dd>
+<dt>Hierarchy</dt><dd>Stars → quote → attribution. 3 → 2 → 1 card carousel.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">10</span><h4>FAQ</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Answer pricing, timeline, warranty &amp; area objections; capture SEO long-tail.</dd>
+<dt>User goal</dt><dd>Resolve last doubts without contacting.</dd>
+<dt>Business goal</dt><dd>Reduce pre-sales load; improve organic reach.</dd>
+<dt>CTA</dt><dd>"Still have questions? Contact us" link to form.</dd>
+<dt>Hierarchy</dt><dd>Accordion, 2-col → 1-col. Collapsed by default.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">11</span><h4>CTA Section</h4></div>
+<dl>
+<dt>Purpose</dt><dd>High-contrast conversion band after proof has been delivered.</dd>
+<dt>User goal</dt><dd>Act now with a clear next step.</dd>
+<dt>Business goal</dt><dd>Second major conversion point down the page.</dd>
+<dt>CTA</dt><dd>"Get Free Estimate" (primary) + "Call Now" (secondary).</dd>
+<dt>Hierarchy</dt><dd>Bold statement left, buttons right → stacked/centered on mobile.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">12</span><h4>Contact / Estimate Form</h4></div>
+<dl>
+<dt>Purpose</dt><dd>The primary lead-capture hub — short, low-friction estimate request.</dd>
+<dt>User goal</dt><dd>Submit their request quickly and know what happens next.</dd>
+<dt>Business goal</dt><dd>Maximize qualified lead volume; the page's core KPI.</dd>
+<dt>CTA</dt><dd>"Request My Free Estimate" (single, high-emphasis) + phone/map fallback.</dd>
+<dt>Hierarchy</dt><dd>Minimal fields (name, contact, service, message) → submit. Contact info + map beside → below on mobile.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">13</span><h4>Footer</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Deep navigation, full service-area list (14 counties) for local SEO, credentials &amp; contact.</dd>
+<dt>User goal</dt><dd>Find a specific link, confirm they're covered, get contact details.</dd>
+<dt>Business goal</dt><dd>Capture local search intent; reinforce legitimacy.</dd>
+<dt>CTA</dt><dd>Phone, address, social; secondary nav links.</dd>
+<dt>Hierarchy</dt><dd>Brand + columns (Services, Company, Areas, Contact) → legal bar. Collapses to 2-col / stacked.</dd>
+</dl>
+</div>
+
+<div class="sc">
+<div class="schd"><span class="num">14</span><h4>Sticky Mobile Action Bar</h4></div>
+<dl>
+<dt>Purpose</dt><dd>Mobile-only persistent bar keeping the two conversion actions in thumb reach at all times.</dd>
+<dt>User goal</dt><dd>Call or request a quote from anywhere on the page.</dd>
+<dt>Business goal</dt><dd>Lift mobile conversion — where most local-service traffic lands.</dd>
+<dt>CTA</dt><dd>"Call" + "Free Estimate", 50/50 split.</dd>
+<dt>Hierarchy</dt><dd>Fixed to bottom, above the fold on scroll, high contrast.</dd>
+</dl>
+</div>
+
+</div>
+</div>
+
+<div class="foot">Luso Glass — Home Wireframe · Grayscale lo-fi · Next up after approval: About, Commercial, Residential, Service pages, Projects, Gallery, Blog, Service Areas, Contact.</div>
+
+</div>
+</x-dc>
+</body>
+</html>
