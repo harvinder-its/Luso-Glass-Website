@@ -7,7 +7,15 @@
     "postbuild": "node scripts/copy-to-site.js"
   },
   "dependencies": {
+    "@portabletext/block-tools": "^5.1.12",
+    "@sanity/client": "^7.25.0",
+    "axios": "^1.18.1",
+    "dotenv": "^17.4.2",
+    "groq": "^6.7.0",
+    "jsdom": "^30.0.1",
     "next": "latest",
+    "next-sanity": "^13.2.3",
+    "node-fetch": "^3.3.2",
     "react": "latest",
     "react-dom": "latest"
   }
